@@ -1,8 +1,10 @@
 package bqtest.web;
 
 import bqtest.service.Member;
+import bqtest.service.MemberFileProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +16,14 @@ import java.util.Map;
 @RestController
 public class FileController {
 
+    private final MemberFileProcessor memberFileProcessor;
+
     private static final Logger log = LoggerFactory.getLogger(FileController.class);
+
+    @Autowired
+    public FileController(MemberFileProcessor memberFileProcessor) {
+        this.memberFileProcessor = memberFileProcessor;
+    }
 
     @GetMapping(value = "/api/load-data")
     public Map<String, List<Member>> loadData(@Value("${config.file-to-load}") String fileToLoad) throws Exception {
@@ -34,6 +43,11 @@ public class FileController {
         /**
          * Use MemberFileProcessor to process the file
          */
+        try {
+            return memberFileProcessor.processFile(uploadedFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

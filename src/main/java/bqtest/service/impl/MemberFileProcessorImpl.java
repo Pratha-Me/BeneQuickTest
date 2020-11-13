@@ -5,8 +5,8 @@ import bqtest.service.MemberFileProcessor;
 import bqtest.service.MemberImporter;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberFileProcessorImpl extends MemberFileProcessor {
@@ -17,17 +17,30 @@ public class MemberFileProcessorImpl extends MemberFileProcessor {
 
     @Override
     protected MemberImporter getMemberImporter() {
-        return null;
+        return new MemberImporterImpl();
     }
 
     @Override
     protected List<Member> getNonDuplicateMembers(List<Member> membersFromFile) {
-        return null;
+        Set<Integer> idSet = new HashSet<>();
+        membersFromFile.removeIf(member -> !idSet.add(Integer.parseInt(member.getId())));
+        return membersFromFile;
     }
 
     @Override
     protected Map<String, List<Member>> splitMembersByState(List<Member> validMembers) {
-        return null;
+        Map<String, List<Member>> membersByStateMap = new HashMap<>();
+        Set<String> stateSet = new HashSet<>();
+
+        validMembers.stream()
+                .forEach(member -> stateSet.add(member.getState()));
+        stateSet.stream()
+                .forEach(s -> membersByStateMap.put(s,
+                validMembers.stream()
+                        .filter(member -> member.getState().equals(s))
+                        .collect(Collectors.toList())));
+
+        return membersByStateMap;
     }
 
 }
