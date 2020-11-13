@@ -15,6 +15,14 @@
         body {
             font-size: .6rem;
         }
+
+        .select{
+            font-size: 1rem;
+        }
+
+        .select > * {
+            display: block;
+        }
     </style>
 
 </head>
@@ -26,29 +34,42 @@
     <h3>Member Data File Viewer App</h3>
 
     <!-- Display your states in a drop down here -->
+    <div class="select">
+        <label name="state"> Select State </label>
+        <select ng-model="selectedState" ng-options="x for x in states" ng-change="handleSelection()"> </select>
+    </div>
     <br />
 
     <div>
 
-            <h4> Members from state: <!-- State name here --> </h4>
+        <h4> Members from state: {{ selectedState }} <!-- State name here --> </h4>
 
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>State</th>
-                    <th>Zip</th>
-                </tr>
-                </thead>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>State</th>
+                <th>Zip</th>
+            </tr>
+            </thead>
 
-                <tbody>
-                    <!-- Populate member details per state here -->
-                </tbody>
-            </table>
+            <tbody>
+            <!-- Populate member details per state here -->
+            <tr ng-repeat="member in membersPerState">
+                <td>{{member.id}} </td>
+                <td>{{member.address}} </td>
+                <td>{{member.city}} </td>
+                <td>{{member.firstName}} </td>
+                <td>{{member.lastName}} </td>
+                <td>{{member.state}} </td>
+                <td>{{member.zip}} </td>
+            </tr>
+            </tbody>
+        </table>
 
     </div>
 

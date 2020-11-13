@@ -24,6 +24,7 @@ public class MemberFileProcessorImpl extends MemberFileProcessor {
     protected List<Member> getNonDuplicateMembers(List<Member> membersFromFile) {
         Set<Integer> idSet = new HashSet<>();
         membersFromFile.removeIf(member -> !idSet.add(Integer.parseInt(member.getId())));
+
         return membersFromFile;
     }
 
@@ -32,13 +33,11 @@ public class MemberFileProcessorImpl extends MemberFileProcessor {
         Map<String, List<Member>> membersByStateMap = new HashMap<>();
         Set<String> stateSet = new HashSet<>();
 
-        validMembers.stream()
-                .forEach(member -> stateSet.add(member.getState()));
-        stateSet.stream()
-                .forEach(s -> membersByStateMap.put(s,
-                validMembers.stream()
-                        .filter(member -> member.getState().equals(s))
-                        .collect(Collectors.toList())));
+        validMembers.forEach(member -> stateSet.add(member.getState()));
+        stateSet.forEach(s -> membersByStateMap.put(s,
+                        validMembers.stream()
+                                .filter(member -> member.getState().equals(s))
+                                .collect(Collectors.toList())));
 
         return membersByStateMap;
     }
