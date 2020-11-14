@@ -12,7 +12,6 @@ angular.module('bqTestModule', [])
             function fetchData() {
                 $http({method: 'GET', url: 'api/load-data'}).then(function (response) {
                     const resObj = response.data;
-                    console.log(resObj);
                     $scope.states = Object.keys(resObj);
                     $scope.members = resObj;
                 }, function (reason) {
