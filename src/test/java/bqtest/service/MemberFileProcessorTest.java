@@ -1,6 +1,7 @@
 package bqtest.service;
 
 import bqtest.service.impl.MemberFileProcessorImpl;
+import bqtest.service.impl.MemberImporterImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,12 +10,16 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class MemberFileProcessorTest {
@@ -26,11 +31,6 @@ class MemberFileProcessorTest {
         public MemberFileProcessor makeProcessorBean(){
             return new MemberFileProcessorImpl();
         }
-
-//        @Bean
-//        public MemberImporter makeImporterBean(){
-//            return new MemberImporterImpl();
-//        }
     }
 
     private static List<Member> memberListDuplicate = null;
@@ -39,9 +39,6 @@ class MemberFileProcessorTest {
 
     @Autowired
     private MemberFileProcessor memberFileProcessor;
-
-//    @Autowired
-//    private MemberImporter memberImporter;
 
     @BeforeEach
     public void setup(){
@@ -128,12 +125,6 @@ class MemberFileProcessorTest {
         memberListSplit.add(testMember6);
         memberListSplit.add(testMember7);
         memberListSplit.add(testMember8);
-
-//        try {
-//            when(memberImporter.importMembers(new File("Member.txt"))).thenReturn(memberListDuplicate);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Test

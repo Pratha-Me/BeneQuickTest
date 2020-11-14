@@ -3,6 +3,7 @@ package bqtest.service.impl;
 import bqtest.service.Member;
 import bqtest.service.MemberFileProcessor;
 import bqtest.service.MemberImporter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
